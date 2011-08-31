@@ -1,0 +1,38 @@
+ //*******************************************************
+//* File:    \\VBOXSVR\criticos\criticos\money.pd
+//* Author:  not specified
+//* Created: 11:18:04 on Wednesday August 31st 2011 UTC
+//*******************************************************
+
+class Money ^=
+abstract
+	var cents: int;
+	invariant cents >= 0;	
+interface
+	build{x : int} //Money(int)
+		pre x > 0
+		post cents! = x;
+	build{dollar:int,penny:int} //Money(int,int)
+		pre dollar > 0, penny > 0
+		post cents! = 100 * dollar + penny;
+	build{cash : Money} //Money(Money)
+		post cents! = cash.cents;
+
+	schema !add(x : Money) //add(Money)
+		post cents! = cents + x.cents;
+	schema !subtract(x : Money) //subtract(Money)
+		pre cents >= x.cents
+		post cents! = cents - x.cents;
+	
+	function lessEqual(x : Money) : bool //lessEqual(Money)
+		^= cents <= x.cents;
+	redefine function toString : string  //toString(Money)
+		^= (let c ^= (cents%100);
+		    let t ^= ([c >=10]: "." ++ c.toString,
+		   		  	  []: ".0" ++ c.toString);
+			(cents/100).toString ++ t);
+	
+end;
+
+// End
+   
