@@ -1,0 +1,10 @@
+class Card ^=
+abstract
+	var number: int;
+	invariant number >= 1;	
+interface
+	function number;
+	build{x : int} //Card(int)
+		pre x >= 1
+		post number! = x;
+end;
