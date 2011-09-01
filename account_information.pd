@@ -1,0 +1,9 @@
+class AccountInformation ^=
+abstract
+interface
+	build{};
+	function ACCOUNT_ABBREVIATIONS : seq of string
+		^=	 seq of string{"Checking", "Savings", "Money Market"};
+	function ACCOUNT_NAMES : seq of string
+		^=	 seq of string{"CHKG", "SVGS", "MMKT"};
+end;
