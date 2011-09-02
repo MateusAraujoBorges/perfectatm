@@ -1,0 +1,21 @@
+import "money.pd";
+import "card.pd";
+
+class Message ^=
+abstract
+	var amount: Money;
+	var card: Card;
+	var fromAccount: int;
+	var toAccount: int;
+	var messageCode: int;
+	var pin: int;
+	var serialNumber: int;
+
+
+interface
+	build{codeIn:int,cardIn:Card,pinIn:int,serialIn:int,fromAccIn:int,toAccIn:int,amountIn:Money}
+		post amount! = amountIn, messageCode! = codeIn, fromAccount! = fromAccIn, toAccount! = toAccIn, pin! = pinIn, card! = cardIn, serialNumber != serialIn;
+																					
+//todo - redefine toString
+
+end;

@@ -1,0 +1,11 @@
+import "money.pd";
+class CashDispenser ^=
+abstract
+	//log
+	var cashOnHand: Money;
+
+interface
+	schema !setInitialCash(money : Money)
+		post cashOnHand! = money;	   	
+
+end;

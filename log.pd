@@ -1,0 +1,10 @@
+import "message.pd";
+
+class Log ^=
+abstract
+interface
+	build{};
+
+	function logSend(message:Message) : int //TODO make this return void
+		^= 1; //TODO how println works?
+end;

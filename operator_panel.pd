@@ -1,0 +1,13 @@
+import "atm.pd";
+import "money.pd";
+
+class OperatorPanel ^=
+abstract
+	var atm: ATM;
+interface
+	build{atmIn:ATM}
+		post atm! = atmIn;
+
+	function getInitialCash : Money
+		^= Money{100,10};
+end;
