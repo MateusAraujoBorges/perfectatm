@@ -29,12 +29,10 @@ interface
 		^= 1;
 	function SERVING_CUSTOMER_STATE: int
 		^= 2;		
-	function performStartup: int //make this return void
-		^= (let initialCash ^= operatorPanel.getInitialCash;
-		   	cashDispenser.setInitialCash(initialCash);
-			//TODO openConnection;
-			1;
-		   )
+	schema !performStartup
+		post (let initialCash ^= operatorPanel.getInitialCash;
+		      self.cashDispenser!setInitialCash(initialCash));
+
 
 //	schema !performShutdown
 //		post ?;

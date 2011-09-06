@@ -1,0 +1,18 @@
+import "money.pd";
+
+class Balances ^=
+abstract
+	var available: Money;
+	var total_: Money;
+	invariant ~available.lessEqual(Money{0}),~total_.lessEqual(Money{0});
+interface
+	function total_;
+	function available;
+	schema !setBalances(totalIn:Money,availableIn:Money)
+	       post total_! = totalIn, available! = availableIn;
+
+end;
+
+
+
+

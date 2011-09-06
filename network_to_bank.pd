@@ -1,0 +1,23 @@
+import "log.pd";
+import "message.pd";
+import "balances.pd";
+
+class NetworkToBank ^=
+abstract
+	var log: Log;
+	var inetAddress: string;
+interface
+	build {logIn : Log, address: string}
+		  post log! = logIn, inetAddress! = address;
+	schema openConnection
+		   post pass;
+	schema closeConnection
+		   post pass;
+
+	schema sendMessage(message:Message,balances:Balances, status!: out Status) 
+//		   pre pass
+		   post pass;
+		   
+		   //log, do something, log again	   
+
+end;

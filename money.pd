@@ -10,7 +10,7 @@ abstract
 	invariant cents >= 0;	
 interface
 	build{x : int} //Money(int)
-		pre x > 0
+		pre x >= 0
 		post cents! = x;
 	build{dollar:int,penny:int} //Money(int,int)
 		pre dollar > 0, penny > 0
