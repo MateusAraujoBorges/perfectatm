@@ -4,19 +4,24 @@ import "balances.pd";
 
 class NetworkToBank ^=
 abstract
+	var openConn:bool;
 	var log: Log;
 	var inetAddress: string;
 interface
 	build {logIn : Log, address: string}
-		  post log! = logIn, inetAddress! = address;
-	schema openConnection
-		   post pass;
-	schema closeConnection
-		   post pass;
+		  post log! = logIn, inetAddress! = address, openConn! = false;
+	//the connection is simulated, so this doesn't do anything
+	schema !openConnection
+		   pre ~openConn
+		   post openConn! = true;
+	schema !closeConnection
+		   pre openConn
+		   post openConn! = false;
 
-	schema sendMessage(message:Message,balances:Balances, status!: out Status) 
+//TODO Status has no subclasses - how to return this object?
+//	schema sendMessage(message:Message,balances:Balances, status!: out from Status) 
 //		   pre pass
-		   post pass;
+//		   post pass;
 		   
 		   //log, do something, log again	   
 

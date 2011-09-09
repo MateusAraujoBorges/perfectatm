@@ -4,6 +4,10 @@ import "log.pd";
 class ATM ^=
 
 abstract
+	const OFF_STATE : int ^= 0;
+	const IDLE_STATE : int ^= 1;
+	const SERVING_CUSTOMER_STATE: int ^= 2;		
+
 	var id: int;
 	var place: string;
 	var bankName: string;
@@ -14,24 +18,23 @@ abstract
 	var operatorPanel:OperatorPanel;
 	var log:Log;
 	var cashDispenser:CashDispenser;
+	var networkToBank:NetworkToBank;
 	//todo CardReader,CustomerConsole,EnvelopeAcceptor,NetworkToBank,OperatorPanel,ReceiptPrinter
 
 	invariant state in set of int {0,1,2};
 	invariant (~(state = 2) | switchOn ); //state=2 -> switchOn=true
 
 interface
+	function OFF_STATE;
+	function IDLE_STATE;
+	function SERVING_CUSTOMER_STATE;
 	function id;
 	function place;
 	function bankName;
-	function OFF_STATE : int
-		^= 0;
-	function IDLE_STATE : int
-		^= 1;
-	function SERVING_CUSTOMER_STATE: int
-		^= 2;		
 	schema !performStartup
 		post (let initialCash ^= operatorPanel.getInitialCash;
-		      self.cashDispenser!setInitialCash(initialCash));
+		      self.cashDispenser!setInitialCash(initialCash)
+		      then networkToBank!openConnection);
 
 
 //	schema !performShutdown

@@ -1,0 +1,7 @@
+deferred class Status ^=
+interface
+	deferred function getMessage: string;
+	deferred function isSuccess : bool;
+	deferred function isInvalidPin : bool;
+end;
+	
