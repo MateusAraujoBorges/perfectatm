@@ -1,6 +1,7 @@
 import "log.pd";
 import "message.pd";
 import "balances.pd";
+import "dummy_status.pd";
 
 class NetworkToBank ^=
 abstract
@@ -18,10 +19,8 @@ interface
 		   pre openConn
 		   post openConn! = false;
 
-//TODO Status has no subclasses - how to return this object?
-//	schema sendMessage(message:Message,balances:Balances, status!: out from Status) 
-//		   pre pass
-//		   post pass;
+	schema sendMessage(message:Message,balances:Balances, status!: out from Status) 
+		   post status! = DummyStatus{};
 		   
 		   //log, do something, log again	   
 

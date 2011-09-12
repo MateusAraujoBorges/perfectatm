@@ -1,0 +1,15 @@
+import "status.pd";
+	
+class DummyStatus ^= inherits Status 
+interface //TODO there is a way to guarantee that these methods will never be called?
+
+    build{} inherits ? ;
+
+    absurd function getMessage : string;
+      	    
+    absurd function isSuccess : bool;
+      	    
+    absurd function isInvalidPin : bool;
+      	    
+
+end;
