@@ -1,9 +1,9 @@
 import "status.pd";
 	
 class DummyStatus ^= inherits Status 
-interface //TODO there is a way to guarantee that these methods will never be called?
+interface 
 
-    build{} inherits ? ;
+    build{} inherits Status{} ;
 
     absurd function getMessage : string;
       	    

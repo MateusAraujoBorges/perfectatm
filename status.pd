@@ -1,5 +1,6 @@
 deferred class Status ^=
 interface
+	build{};
 	deferred function getMessage: string;
 	deferred function isSuccess : bool;
 	deferred function isInvalidPin : bool;
