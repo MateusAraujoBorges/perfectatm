@@ -1,8 +1,12 @@
 deferred class Status ^=
 interface
 	build{};
-	deferred function getMessage: string;
-	deferred function isSuccess : bool;
-	deferred function isInvalidPin : bool;
+	deferred function notDummy : bool;
+	deferred function getMessage: string
+		pre notDummy;
+	deferred function isSuccess : bool
+		pre notDummy;
+	deferred function isInvalidPin : bool
+		pre notDummy;
 end;
 	

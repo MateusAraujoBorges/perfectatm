@@ -5,6 +5,9 @@ interface
 
     build{} inherits Status{} ;
 
+	define function notDummy :bool
+	    ^= false;
+
     absurd function getMessage : string;
       	    
     absurd function isSuccess : bool;
