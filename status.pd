@@ -8,5 +8,12 @@ interface
 		pre notDummy;
 	deferred function isInvalidPin : bool
 		pre notDummy;
+
+	//need to redefine this operator (something about ghost equality)
+	operator = (n);  
+//		^= (let m1 ^= self.getMessage;
+//		    let m2 ^= n.getMessage;
+//			m1 = m2);
+
 end;
 	
