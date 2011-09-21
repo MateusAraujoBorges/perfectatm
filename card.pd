@@ -4,7 +4,7 @@ abstract
 	//the reader will send a negative number for the card's number
 	var number: int;
 	var isUnreadable: bool;
-	invariant (number < 0) & isUnreadable; //unable to prove this - why?
+	invariant (number < 0) = isUnreadable; 
 interface
 	function number;
 	build{x : int} //Card(int)
