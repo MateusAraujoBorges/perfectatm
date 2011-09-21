@@ -1,0 +1,32 @@
+import "card.pd";
+
+class CardReader ^=
+
+abstract
+	class CardReaderStatus ^= enum withCard,noCard,retainedCard end;
+	var state : CardReaderStatus;
+
+interface
+
+	build{}
+		post state! = noCard@CardReaderStatus;
+
+	function state;
+	function dummyCard : int 
+		 ^= 42;
+
+	schema !readCard(card!: out Card)
+	       pre state = noCard@CardReaderStatus
+	       post state! = withCard@CardReaderStatus,
+	            card! = Card{self.dummyCard};
+
+	schema !ejectCard
+	       pre state = withCard@CardReaderStatus
+	       post state! = noCard@CardReaderStatus;
+
+	schema !retainCard
+	       pre state = withCard@CardReaderStatus
+	       post state! = retainedCard@CardReaderStatus;
+
+
+end;
