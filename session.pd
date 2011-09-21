@@ -1,0 +1,43 @@
+import "atm.pd";
+import "card.pd";
+import "cardreader.pd";
+
+class Session ^=
+abstract
+	class SessionState ^= enum readingCard,readingPin,choosingTransaction, performingTransaction,ejectingCard,finalState end;
+	var pin : int; //negative value means that the user still hasn't informed his pin
+	var atm : ATM;
+	var state : SessionState;
+	var dummyReader:CardReader;
+	var dummyCard:Card;
+	
+interface
+
+	build{atmin:ATM}
+		post atm != atmin, state != readingCard@SessionState, pin != -1, dummyCard!= Card{-1}, dummyReader != CardReader{};
+
+	schema !setPIN(inpin:int) 
+	       pre (inpin > 0)
+	       post pin! = inpin;
+
+	//schema dispatch //call apropriate event handler for each state.
+	//schema errorDispatch //call apropriate exception event handler for each state.	       
+
+	//state methods
+	schema !readingCardState
+	       pre state = readingCard@SessionState
+	       post (dummyReader! = atm.cardReader
+	       	    then dummyReader!readCard(dummyCard)
+		    then (
+		    	 [card.isUnreadable]: //eject it
+			 	atm.cardReader!ejectCard,
+				state! = ejectingCard@SessionState,
+			 []: 
+			        state! = readingPin@SessionState
+			 )
+		     );
+
+
+	
+
+end;
