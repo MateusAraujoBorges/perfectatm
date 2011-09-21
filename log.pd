@@ -2,9 +2,28 @@ import "message.pd";
 
 class Log ^=
 abstract
+	var logMessage: seq of Message;
+	var logResponse: seq of from Status;
+	var logCash: seq of Money;
+	var logEnvelope: seq of string;
 interface
-	build{};
+	build{}
+		post logMessage! = seq of Message{} &
+		     logResponse! = seq of from Status{} &
+		     logCash! = seq of Money{} &
+		     logEnvelope! = seq of string{};	
 
-	function logSend(message:Message) : int //TODO make this return void
-		^= 1; //TODO how println works?
+	schema !logSend(message:Message) //no println here :P
+		post logMessage! = logMessage.append(message);
+
+	schema !logReceive(res : from Status)
+	       post logResponse! = logResponse.append(res);
+
+	schema !logDraw(mon : Money)
+	       post logCash! = logCash.append(mon);
+
+	schema !logDeposit(dep : string)
+	       post logEnvelope! = logEnvelope.append(dep);
+
+	
 end;
