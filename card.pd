@@ -1,10 +1,13 @@
 class Card ^=
 abstract
+	//we will assume that if the ATM cannot read the card,
+	//the reader will send a negative number for the card's number
 	var number: int;
-	invariant number >= 1;	
+	var isUnreadable: bool;
+	invariant (number < 0) & isUnreadable; //unable to prove this - why?
 interface
 	function number;
 	build{x : int} //Card(int)
-		pre x >= 1
-		post number! = x;
+		post number! = x, isUnreadable! = (x < 0);
+
 end;
