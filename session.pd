@@ -26,18 +26,36 @@ interface
 	//state methods
 	schema !readingCardState
 	       pre state = readingCard@SessionState
-	       post (dummyReader! = atm.cardReader
-	       	    then dummyReader!readCard(dummyCard)
-		    then (
-		    	 [card.isUnreadable]: //eject it
-			 	atm.cardReader!ejectCard,
-				state! = ejectingCard@SessionState,
-			 []: 
-			        state! = readingPin@SessionState
-			 )
-		     );
+	       post (
+		   		dummyReader! = atm.cardReader
+	       		then dummyReader!readCard(dummyCard!)
+				then !readingCardStateHelper(dummyCard,dummyReader!)
+				);
 
-
-	
+	schema !readingCardStateHelper(card : Card, reader! : out CardReader)
+	 	   pre state = readingCard@SessionState
+	 	   post ( 
+	 	    	 [card.isUnreadable]: //eject it
+	 			 		reader!ejectCard,
+	 					state! = ejectingCard@SessionState,
+	 			 []: 
+	 					state! = readingPin@SessionState
+	 			 );
 
 end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

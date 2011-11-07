@@ -18,9 +18,9 @@ abstract
 	var cardInserted:bool;
 	var operatorPanel:OperatorPanel;
 	var log:Log;
+	var cardReader:CardReader;
 	var cashDispenser:CashDispenser;
 	var networkToBank:NetworkToBank;
-	var cardReader : CardReader;
 	//todo CustomerConsole,EnvelopeAcceptor,NetworkToBank,OperatorPanel,ReceiptPrinter
 
 	invariant state in set of int {0,1,2};
@@ -33,7 +33,8 @@ interface
 	function id;
 	function place;
 	function bankName;
-	function cardReader;
+//	function cardReader;
+	selector cardReader;
 
 	schema !performStartup
 		post (let initialCash ^= operatorPanel.getInitialCash;
