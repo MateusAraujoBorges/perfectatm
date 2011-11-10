@@ -15,7 +15,8 @@ confined
 
 	//state methods
 	schema !readingCardState
-	       pre self.state = readingCard@SessionState
+	       pre self.state = readingCard@SessionState,
+		   	   self.atm.cardReader.state = noCard@CardReaderStatus
 	       post (
 		   		dummyReader! = atm.cardReader
 				then dummyReader!readCard(dummyCard!)
@@ -23,7 +24,8 @@ confined
 				);
 
 	schema !readingCardStateHelper(card : Card)
-	 	   pre self.state = readingCard@SessionState
+	 	   pre self.state = readingCard@SessionState,
+		   card.isUnreadable ==> (self.dummyReader.state = withCard@CardReaderStatus)
 	 	   post ( 
 	 	    	 [card.isUnreadable]: //eject it
 	 			 		dummyReader!ejectCard,
@@ -33,7 +35,7 @@ confined
 	 			 );
 
 
-property assert (self after it!readingCardState).state in set of SessionState{ejectingCard@SessionState,readingPin@SessionState};
+property assert self.state = readingCard@SessionState & (self after it!readingCardState).state in set of SessionState{ejectingCard@SessionState,readingPin@SessionState};
 
 	
 interface

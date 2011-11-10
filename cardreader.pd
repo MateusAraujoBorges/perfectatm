@@ -1,9 +1,10 @@
 import "card.pd";
 
+class CardReaderStatus ^= enum withCard,noCard,retainedCard end;
+
 class CardReader ^=
 
 abstract
-	class CardReaderStatus ^= enum withCard,noCard,retainedCard end;
 	var state : CardReaderStatus;
 
 interface

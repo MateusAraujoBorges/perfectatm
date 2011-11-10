@@ -24,7 +24,7 @@ abstract
 	//todo CustomerConsole,EnvelopeAcceptor,NetworkToBank,OperatorPanel,ReceiptPrinter
 
 	invariant state in set of int {0,1,2};
-	invariant (~(state = 2) | switchOn ); //state=2 -> switchOn=true
+	invariant (switchOn ==> (state = 2 | state = 1)); //
 
 interface
 	function OFF_STATE;
@@ -56,9 +56,13 @@ interface
 
 
 	schema !performStartup
+		pre state = OFF_STATE,
+			~self.networkToBank.openConn
 		post (let initialCash ^= operatorPanel.getInitialCash;
 		      self.cashDispenser!setInitialCash(initialCash)
-		      then networkToBank!openConnection);
+		      then networkToBank!openConnection
+			  then switchOn! = true
+			  then state! = IDLE_STATE);
 
 
 //	schema !performShutdown
