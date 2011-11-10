@@ -10,6 +10,31 @@ abstract
 	var state : SessionState;
 	var dummyReader:CardReader;
 	var dummyCard:Card;
+
+confined
+
+	//state methods
+	schema !readingCardState
+	       pre self.state = readingCard@SessionState
+	       post (
+		   		dummyReader! = atm.cardReader
+				then dummyReader!readCard(dummyCard!)
+	       		then !readingCardStateHelper(dummyCard)
+				);
+
+	schema !readingCardStateHelper(card : Card)
+	 	   pre self.state = readingCard@SessionState
+	 	   post ( 
+	 	    	 [card.isUnreadable]: //eject it
+	 			 		dummyReader!ejectCard,
+	 					state! = ejectingCard@SessionState,
+	 			 []: 
+	 					state! = readingPin@SessionState
+	 			 );
+
+
+property assert (self after it!readingCardState).state in set of SessionState{ejectingCard@SessionState,readingPin@SessionState};
+
 	
 interface
 
@@ -23,26 +48,25 @@ interface
 	//schema dispatch //call apropriate event handler for each state.
 	//schema errorDispatch //call apropriate exception event handler for each state.	       
 
-	//state methods
-	schema !readingCardState
-	       pre state = readingCard@SessionState
-	       post (
-		   		dummyReader! = atm.cardReader
-	       		then dummyReader!readCard(dummyCard!)
-				then !readingCardStateHelper(dummyCard,dummyReader!)
-				);
-
-	schema !readingCardStateHelper(card : Card, reader! : out CardReader)
-	 	   pre state = readingCard@SessionState
-	 	   post ( 
-	 	    	 [card.isUnreadable]: //eject it
-	 			 		reader!ejectCard,
-	 					state! = ejectingCard@SessionState,
-	 			 []: 
-	 					state! = readingPin@SessionState
-	 			 );
-
 end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

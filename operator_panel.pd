@@ -3,13 +3,16 @@ import "money.pd";
 
 class OperatorPanel ^=
 abstract
-	var atm: ATM;
+//nao dah pra passar isso dentro do construtor de atm, entao estou removendo
+//	var atm: ATM;
 interface
-	build{atmIn:ATM}
-		post atm! = atmIn;
+	build{};
+//		post atm! = anything;		
+
+//	schema !setup(atmIn:ATM)
+//		post atm! = atmIn;
 
 	function getInitialCash : Money
 		^= Money{100,10};
-
 
 end;

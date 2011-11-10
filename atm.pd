@@ -36,6 +36,25 @@ interface
 //	function cardReader;
 	selector cardReader;
 
+//Bronca - passando self/this para outros objetos antes de ter finalizado o construtor
+
+	build{idIn:int,placeIn:string,bankNameIn:string,bankAddressIn:string}
+		post cardReader!= CardReader{} 
+			 then id!= idIn
+			 then place!= placeIn
+			 then bankName!=bankNameIn
+			 then bankAddress!=bankAddressIn
+			 then state!=OFF_STATE
+			 then switchOn!=false
+			 then cardInserted!=false
+			 then operatorPanel!=OperatorPanel{}
+			 then log!=Log{}
+			 then cashDispenser!=CashDispenser{}
+			 then networkToBank!=NetworkToBank{log,bankAddress};
+
+//		post cardReader!= CardReader{},id!= idIn, place!= placeIn,bankName!=bankNameIn,bankAddress!=bankAddressIn,state!=OFF_STATE,switchOn!=false,cardInserted!=false,operatorPanel!=OperatorPanel{},log!=Log{},cashDispenser!=CashDispenser{},networkToBank!=NetworkToBank{log,"ip sem nocao"};
+
+
 	schema !performStartup
 		post (let initialCash ^= operatorPanel.getInitialCash;
 		      self.cashDispenser!setInitialCash(initialCash)

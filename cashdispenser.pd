@@ -5,6 +5,9 @@ abstract
 	var cashOnHand: Money;
 
 interface
+	build{}
+		post cashOnHand! = Money{0};
+
 	schema !setInitialCash(money : Money)
 		post cashOnHand! = money;	   	
 
