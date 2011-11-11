@@ -11,6 +11,9 @@ abstract
 interface
 	build {logIn : Log, address: string}
 		  post log! = logIn, inetAddress! = address, openConn! = false;
+
+	function openConn;
+
 	//the connection is simulated, so this doesn't do anything
 	schema !openConnection 
 		   pre ~openConn

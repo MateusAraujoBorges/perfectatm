@@ -35,7 +35,7 @@ confined
 	 			 );
 
 
-property assert self.state = readingCard@SessionState & (self after it!readingCardState).state in set of SessionState{ejectingCard@SessionState,readingPin@SessionState};
+property assert (self.state = readingCard@SessionState & self.atm.cardReader.state = noCard@CardReaderStatus) ==> (self after it!readingCardState).state in set of SessionState{ejectingCard@SessionState,readingPin@SessionState};
 
 	
 interface
