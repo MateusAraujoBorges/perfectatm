@@ -16,6 +16,6 @@ interface
 	build{codeIn:int,cardIn:Card,pinIn:int,serialIn:int,fromAccIn:int,toAccIn:int,amountIn:Money}
 		post amount! = amountIn, messageCode! = codeIn, fromAccount! = fromAccIn, toAccount! = toAccIn, pin! = pinIn, card! = cardIn, serialNumber != serialIn;
 																					
-//todo - redefine toString
+    redefine function toString: string ^= "Message to bank: " ++ messageCode.toString;
 
 end;

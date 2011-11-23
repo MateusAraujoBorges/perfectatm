@@ -17,6 +17,6 @@ interface
 
 	schema !dispenseCash(money : Money)
 		pre checkCashOnHand(money), cashOnHand.cents >= money.cents
-		post cashOnHand!subtract(money),log!logDraw(money);	   	
+		post cashOnHand!subtract(money),log!logCashDispensed(money);	   	
 
 end;

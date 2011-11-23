@@ -3,27 +3,27 @@ import "message.pd";
 class Log ^=
 abstract
 	var logMessage: seq of Message;
-	var logResponse: seq of from Status;
+	var logRResponse: seq of from Status;
 	var logCash: seq of Money;
 	var logEnvelope: seq of string;
 interface
 	build{}
 		post logMessage! = seq of Message{} &
-		     logResponse! = seq of from Status{} &
+		     logRResponse! = seq of from Status{} &
 		     logCash! = seq of Money{} &
 		     logEnvelope! = seq of string{};	
 
 	schema !logSend(message:Message) //no println here :P
 		post logMessage! = logMessage.append(message);
 
-	schema !logReceive(res : from Status)
-	       post logResponse! = logResponse.append(res);
+	schema !logResponse(res : from Status)
+	       post logRResponse! = logRResponse.append(res);
 
-	schema !logDraw(mon : Money)
+	schema !logCashDispensed(mon : Money)
 	       post logCash! = logCash.append(mon);
 
-	schema !logDeposit(dep : string)
-	       post logEnvelope! = logEnvelope.append(dep);
+	schema !logEnvelopeAccepted
+	       post logEnvelope! = logEnvelope.append("Envelope: received");
 
 	
 end;
