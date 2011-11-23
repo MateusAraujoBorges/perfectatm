@@ -6,6 +6,7 @@ abstract
 	var isUnreadable: bool;
 	invariant (number < 0) = isUnreadable; 
 interface
+	function getNumber : int ^= number;
 	function number;
 	function isUnreadable;
 	build{x : int} //Card(int)
