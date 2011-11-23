@@ -11,11 +11,35 @@ abstract
 	var pin: int;
 	var serialNumber: int;
 
+    const WITHDRAWAL: int ^= 0;
+    const INITIATE_DEPOSIT: int ^= 1;
+    const COMPLETE_DEPOSIT:int ^= 2;
+    const TRANSFER:int ^= 3;
+    const INQUIRY:int ^= 4;
+
+	invariant messageCode >= 0;
+	invariant messageCode <= 4;
 
 interface
+    function WITHDRAWAL;
+    function INITIATE_DEPOSIT;
+    function COMPLETE_DEPOSIT;
+    function TRANSFER;
+    function INQUIRY;
+
+	function getAmount : Money ^= amount;
+	function getCard : Card ^= card;
+	function getFromAccount : int ^= fromAccount;
+	function getMessageCode : int ^= messageCode;
+	function getPIN : int ^= pin;
+
 	build{codeIn:int,cardIn:Card,pinIn:int,serialIn:int,fromAccIn:int,toAccIn:int,amountIn:Money}
+	    pre codeIn <= 4, codeIn >=0
 		post amount! = amountIn, messageCode! = codeIn, fromAccount! = fromAccIn, toAccount! = toAccIn, pin! = pinIn, card! = cardIn, serialNumber != serialIn;
 																					
     redefine function toString: string ^= "Message to bank: " ++ messageCode.toString;
+
+	schema !setPIN(pinIn : int)
+		   post pin != pinIn;
 
 end;
