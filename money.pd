@@ -9,6 +9,7 @@ abstract
 	var cents: int;
 	invariant cents >= 0;	
 interface
+	function cents;
 	build{x : int} //Money(int)
 		pre x >= 0
 		post cents! = x;

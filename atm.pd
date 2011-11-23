@@ -21,7 +21,7 @@ abstract
 	var cardReader:CardReader;
 	var cashDispenser:CashDispenser;
 	var networkToBank:NetworkToBank;
-	//todo CustomerConsole,EnvelopeAcceptor,NetworkToBank,OperatorPanel,ReceiptPrinter
+	//CustomerConsole,EnvelopeAcceptor,NetworkToBank,OperatorPanel,ReceiptPrinter
 
 	invariant state in set of int {0,1,2};
 	invariant (switchOn ==> (state = 2 | state = 1)); //
@@ -49,7 +49,7 @@ interface
 			 then cardInserted!=false
 			 then operatorPanel!=OperatorPanel{}
 			 then log!=Log{}
-			 then cashDispenser!=CashDispenser{}
+			 then cashDispenser!=CashDispenser{log}
 			 then networkToBank!=NetworkToBank{log,bankAddress};
 
 //		post cardReader!= CardReader{},id!= idIn, place!= placeIn,bankName!=bankNameIn,bankAddress!=bankAddressIn,state!=OFF_STATE,switchOn!=false,cardInserted!=false,operatorPanel!=OperatorPanel{},log!=Log{},cashDispenser!=CashDispenser{},networkToBank!=NetworkToBank{log,"ip sem nocao"};

@@ -1,14 +1,22 @@
 import "money.pd";
+import "log.pd";
+
 class CashDispenser ^=
 abstract
-	//log
+	var log : Log;
 	var cashOnHand: Money;
 
 interface
-	build{}
-		post cashOnHand! = Money{0};
+	build{logIn : Log}
+		post cashOnHand! = Money{0}, log != logIn;
+
+	function checkCashOnHand(money :Money) : bool ^= cashOnHand.lessEqual(money);
 
 	schema !setInitialCash(money : Money)
 		post cashOnHand! = money;	   	
+
+	schema !dispenseCash(money : Money)
+		pre checkCashOnHand(money), cashOnHand.cents >= money.cents
+		post cashOnHand!subtract(money),log!logDraw(money);	   	
 
 end;
