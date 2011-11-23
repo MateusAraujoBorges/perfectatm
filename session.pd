@@ -19,8 +19,9 @@ confined
 		   	   self.atm.cardReader.state = noCard@CardReaderStatus
 	       post (
 		   		dummyReader! = atm.cardReader
-				then dummyReader!readCard(dummyCard!)
-	       		then !readingCardStateHelper(dummyCard)
+//				then dummyReader!readCard(dummyCard!)
+				then dummyReader!readCard
+	       		then !readingCardStateHelper(dummyReader.card)
 				);
 
 	schema !readingCardStateHelper(card : Card)

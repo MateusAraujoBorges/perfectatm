@@ -6,20 +6,20 @@ class CardReader ^=
 
 abstract
 	var state : CardReaderStatus;
-
+	var dummyCard : Card;
 interface
 
 	build{}
-		post state! = noCard@CardReaderStatus;
+		post state! = noCard@CardReaderStatus, dummyCard!= Card{42};
 
 	function state;
-	function dummyCard : int 
-		 ^= 42;
+	function card : Card ^= dummyCard;
 
-	schema !readCard(card!: out Card)
+
+	schema !readCard
 	       pre state = noCard@CardReaderStatus
 	       post state! = withCard@CardReaderStatus,
-	            card! = Card{self.dummyCard};
+	            dummyCard! = (Card{1} after it!changeNumber(self.dummyCard.number));
 
 	schema !ejectCard
 	       pre state = withCard@CardReaderStatus

@@ -11,5 +11,7 @@ interface
 	function isUnreadable;
 	build{x : int} //Card(int)
 		post number! = x, isUnreadable! = (x < 0);
+	schema !changeNumber(n : int)
+		   post number! = n, isUnreadable! = (n < 0);
 
 end;
